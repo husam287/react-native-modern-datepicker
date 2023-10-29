@@ -112,7 +112,7 @@ const TimeScroller = ({title, data, onChange}) => {
 };
 
 const SelectTime = () => {
-  const {options, state, utils, minuteInterval, mode, onTimeChange} = useCalendar();
+  const {options, state, utils, minuteInterval, mode, onTimeChange, is12Times} = useCalendar();
   const [mainState, setMainState] = state;
   const [show, setShow] = useState(false);
   const [time, setTime] = useState({
@@ -144,7 +144,10 @@ const SelectTime = () => {
 
   const selectTime = () => {
     const newTime = utils.getDate(mainState.activeDate);
-    newTime.hour(time.hour).minute(time.minute);
+    const incHours = is12Times && time.a === utils.config.pm ? 12 : 0;
+    const hour = is12Times? time.hour + incHours : time.hour;
+
+    newTime.hour(hour).minute(time.minute);
     setMainState({
       type: 'set',
       activeDate: utils.getFormated(newTime),
@@ -152,7 +155,7 @@ const SelectTime = () => {
         ? utils.getFormated(
             utils
               .getDate(mainState.selectedDate)
-              .hour(time.hour)
+              .hour(hour)
               .minute(time.minute),
           )
         : '',
@@ -183,7 +186,7 @@ const SelectTime = () => {
     <Animated.View style={containerStyle}>
       <TimeScroller
         title={utils.config.hour}
-        data={Array.from({length: 24}, (x, i) => i)}
+        data={Array.from({length: is12Times? 12 : 24}, (x, i) => i)}
         onChange={hour => setTime({...time, hour})}
       />
       <TimeScroller
@@ -191,6 +194,13 @@ const SelectTime = () => {
         data={Array.from({length: 60 / minuteInterval}, (x, i) => i * minuteInterval)}
         onChange={minute => setTime({...time, minute})}
       />
+      {!!is12Times &&
+        <TimeScroller
+          title={utils.config.a}
+          data={Array.from({length: 2}, (x, i) => i===0 ? utils.config.am : utils.config.pm)}
+          onChange={a => setTime({...time, a})}
+      />
+      }
       <View style={style.footer}>
         <TouchableOpacity style={style.button} activeOpacity={0.8} onPress={selectTime}>
           <Text style={style.btnText}>{utils.config.timeSelect}</Text>
