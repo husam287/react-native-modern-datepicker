@@ -75,9 +75,9 @@ class utils {
     return {flexDirection: this.data.reverse ? (I18nManager.isRTL ? 'row' : 'row-reverse') : 'row'};
   }
 
-  getFormated = (date, formatName = 'selectedFormat') => date.format(this.config[formatName]);
+  getFormated = (date, formatName = 'selectedFormat') => date.locale("en").format(this.config[formatName]);
 
-  getFormatedDate = (date = new Date(), format = 'YYYY/MM/DD') => moment(date).format(format);
+  getFormatedDate = (date = new Date(), format = 'YYYY/MM/DD') => moment(date).locale("en").format(format);
 
   getTime = (time) => this.getDate(time).format(this.config.timeFormat);
 

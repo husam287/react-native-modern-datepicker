@@ -66,9 +66,6 @@ const TimeScroller = ({title, data, onChange}) => {
               {
                 scale: scrollAnimatedValue.interpolate(makeAnimated(1.2, 0.9, 0.8)),
               },
-              {
-                scaleX: I18nManager.isRTL ? -1 : 1,
-              },
             ],
           },
           style.listItem,
@@ -92,7 +89,7 @@ const TimeScroller = ({title, data, onChange}) => {
         onScroll={Animated.event([{nativeEvent: {contentOffset: {x: scrollAnimatedValue}}}], {
           useNativeDriver: true,
         })}
-        data={I18nManager.isRTL ? data.reverse() : data}
+        data={data}
         onMomentumScrollEnd={() => {
           const index = Math.round(active.current / itemSize);
           onChange(data[index + 2]);
