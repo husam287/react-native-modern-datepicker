@@ -9,6 +9,9 @@
   "files": [
     "src"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "Hossein Shabani",
   "homepage": "https://hosseinshabani.github.io/react-native-modern-datepicker/",
   "repository": {
