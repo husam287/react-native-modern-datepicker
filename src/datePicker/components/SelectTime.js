@@ -253,7 +253,7 @@ const styles = theme =>
       justifyContent: 'center',
       transform: [
         {
-          scaleX: Platform.select({ android:-1, ios:1 }),
+          scaleX: I18nManager.isRTL ? Platform.select({ android:-1, ios:1 }) : 1,
         },
       ]
     },
