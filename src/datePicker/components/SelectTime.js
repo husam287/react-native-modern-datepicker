@@ -8,6 +8,7 @@ import {
   Easing,
   TouchableOpacity,
   I18nManager,
+  Platform,
 } from 'react-native';
 
 import {useCalendar} from '../DatePicker';
@@ -96,7 +97,7 @@ const TimeScroller = ({title, data, onChange}) => {
         }}
         keyExtractor={(_, i) => String(i)}
         renderItem={renderItem}
-        inverted={I18nManager.isRTL}
+        inverted={Platform.OS==='ios' && I18nManager.isRTL}
         contentContainerStyle={
           I18nManager.isRTL && {
             transform: [
@@ -250,6 +251,11 @@ const styles = theme =>
       height: 60,
       alignItems: 'center',
       justifyContent: 'center',
+      transform: [
+        {
+          scaleX: Platform.select({ android:-1, ios:1 }),
+        },
+      ]
     },
     listItemText: {
       fontSize: theme.textHeaderFontSize,
