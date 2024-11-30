@@ -57,11 +57,12 @@ const gregorianConfigs = {
 };
 
 class utils {
-  constructor({minimumDate, maximumDate, disabledDates, isGregorian, mode, reverse, configs}) {
+  constructor({minimumDate, maximumDate, disabledDates, disabledWeekDays, isGregorian, mode, reverse, configs}) {
     this.data = {
       minimumDate,
       maximumDate,
       disabledDates,
+      disabledWeekDays,
       isGregorian,
       reverse: reverse === 'unset' ? !isGregorian : reverse,
     };
@@ -162,7 +163,7 @@ class utils {
   };
 
   getMonthDays = (time) => {
-    const {minimumDate, maximumDate, isGregorian, disabledDates} = this.data;
+    const {minimumDate, maximumDate, isGregorian, disabledDates, disabledWeekDays} = this.data;
     let date = this.getDate(time);
     const currentMonthDays = isGregorian
       ? date.daysInMonth()
@@ -183,6 +184,9 @@ class utils {
         if(disabledDates?.length && !disabled){
           const formatedDate = this.getFormated(thisDay)
           disabled = disabledDates.includes(formatedDate)
+        }
+        if(disabledWeekDays?.length && !disabled){
+          disabled = disabledWeekDays.includes(thisDay.day())
         }
 
         date = this.getDate(time);
