@@ -1,6 +1,6 @@
 {
   "name": "@husam287/react-native-modern-datepicker",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "A customizable calendar, time & month picker for React Native (including Persian Jalaali calendar & locale)",
   "main": "src/index.js",
   "scripts": {
