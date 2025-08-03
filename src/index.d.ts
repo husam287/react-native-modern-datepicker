@@ -17,6 +17,15 @@ export interface ModernDatepickerProps {
     current?: string;
     selected?: string;
     locale?: string;
+    is12Times?: boolean;
+    /**
+     * list of disabled dates YYYY/MM/DD
+     */
+    disabledDates?: string[];
+    /**
+     * list of disabled week day numbers
+     */
+    disabledWeekDays?: number[];
     options?: {
         backgroundColor?: string;
         textHeaderColor?: string;
