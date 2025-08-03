@@ -41,7 +41,7 @@ export interface ModernDatepickerProps {
     headerAnimationDistance?: number;
     daysAnimationDistance?: number;
   };
-  config?: {
+  configs?: {
     dayNames?: string[],
     dayNamesShort?: string[],
     monthNames?: string[],
