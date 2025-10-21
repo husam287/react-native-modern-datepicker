@@ -61,7 +61,7 @@ const SelectMonth = () => {
         type: 'set',
         activeDate: utils.getFormated(activeDate),
       });
-      month !== null && onMonthYearChange(utils.getFormated(activeDate, 'monthYearFormat'));
+      month !== null && onMonthYearChange?.(utils.getFormated(activeDate, 'monthYearFormat'));
       month !== null &&
         mode !== 'monthYear' &&
         setMainState({
