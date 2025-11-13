@@ -6,9 +6,11 @@ import {useCalendar} from '../DatePicker';
 const Days = () => {
   const {options, state, utils, onDateChange} = useCalendar();
   const [mainState, setMainState] = state;
-  const [itemSize, setItemSize] = useState(0);
   const style = styles(options);
   const days = useMemo(() => utils.getMonthDays(mainState.activeDate));
+
+  const [layoutWidth, setLayoutWidth] = useState(null);
+  const layoutTimeout = React.useRef(null);
 
   const onSelectDay = date => {
     setMainState({
@@ -18,13 +20,27 @@ const Days = () => {
     onDateChange?.(utils.getFormated(utils.getDate(date), 'dateFormat'));
   };
 
-  const changeItemHeight = ({nativeEvent}) => {
-    const {width} = nativeEvent.layout;
-    !itemSize && setItemSize((width / 7).toFixed(2) * 1 - 0.5);
+  const onLayout = ({ nativeEvent }) => {
+    const { width } = nativeEvent.layout;
+
+    // clear any previous scheduled updates
+    if (layoutTimeout.current) {
+      clearTimeout(layoutTimeout.current);
+    }
+  
+    // delay update slightly to capture final layout width
+    layoutTimeout.current = setTimeout(() => {
+      setLayoutWidth(width);
+    }, 50); // 50–80ms is perfect
   };
 
+  const itemSize = useMemo(() => {
+    if (!layoutWidth) return 0;
+    return (layoutWidth / 7).toFixed(2) * 1 - 0.5;
+  }, [layoutWidth]);
+
   return (
-    <View style={[style.container, utils.flexDirection]} onLayout={changeItemHeight}>
+    <View style={[style.container, utils.flexDirection]} onLayout={onLayout}>
       {days.map((day, n) => (
         <View
           key={n}
